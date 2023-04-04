@@ -2,7 +2,7 @@
 
 """
 @author: wuchaofan
-@Created on: 2022/1/1 001 9:34
+@Created on: 2023/1/1 001 9:34
 @Remark:
 """
 from system.models import ApiWhiteList

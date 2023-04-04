@@ -13,7 +13,7 @@ class AreaSerializer(CustomModelSerializer):
     f_code_count = serializers.SerializerMethodField(read_only=True)
 
     def get_f_code_count(self, instance: Area):
-        return Area.objects.filter(pcode=instance).count()
+        return Area.objects.filter(f_code=instance).count()
 
     class Meta:
         model = Area

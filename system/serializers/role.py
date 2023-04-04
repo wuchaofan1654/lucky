@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-@author: 猿小天
-@contact: QQ:1638245306
-@Created on: 2021/6/3 003 0:30
+@author: lucky
+@contact: QQ:382503189
+@Created on: 2022/6/3 003 0:30
 @Remark: 角色管理
 """
 from rest_framework import serializers
@@ -77,7 +77,7 @@ class MenuPermissionSerializer(CustomModelSerializer):
     """
     菜单的按钮权限
     """
-    menuPermission = serializers.SerializerMethodField()
+    menu_permission = serializers.SerializerMethodField()
 
     def get_menu_permission(self, instance):
         is_superuser = self.request.user.is_superuser

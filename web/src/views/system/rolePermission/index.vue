@@ -1,9 +1,9 @@
 <!--
  * @创建文件时间: 2021-06-01 22:41:21
- * @Auther: 猿小天
- * @最后修改人: 猿小天
+ * @Auther: lucky
+ * @最后修改人: lucky
  * @最后修改时间: 2021-09-26 21:18:29
- * 联系Qq:1638245306
+ * 联系QQ:382503189
  * @文件介绍:授权管理
 -->
 <template>
@@ -12,7 +12,7 @@
       <el-button
         type="primary"
         size="mini"
-        @click="submitPermisson"
+        @click="submitPermission"
         v-permission="'Save'"
       >保存
       </el-button>
@@ -101,7 +101,7 @@
                   <div :style="{width:((4-node.level)*18+100)+'px'}">{{ data.name }}</div>
                   <div>
                     <el-checkbox
-                      v-for="(item, index) in data.menuPermission"
+                      v-for="(item, index) in data.menu_permission"
                       :key="index"
                       v-model="item.checked"
                     >{{ item.name }}</el-checkbox>
@@ -222,8 +222,8 @@ export default {
     getMenuData (data) {
       api.GetMenuData(data).then(res => {
         res.forEach(x => {
-          // 根据当前角色的permission,对menuPermisson进行勾选处理
-          x.menuPermission.forEach(a => {
+          // 根据当前角色的permission,对menu_permission进行勾选处理
+          x.menu_permission.forEach(a => {
             if (data.permission.indexOf(a.id) > -1) {
               this.$set(a, 'checked', true)
             } else {
@@ -263,7 +263,7 @@ export default {
       return checkedKeys
     },
     // 提交修改
-    submitPermisson () {
+    submitPermission () {
       this.roleObj.menu = this.getMenuAllCheckedKeys() // 获取选中的菜单
       this.roleObj.dept = this.getDeptAllCheckedKeys() // 获取选中的部门
       const menuData = XEUtils.toTreeArray(this.menuOptions)

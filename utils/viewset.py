@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-@author: 猿小天
-@contact: QQ:1638245306
-@Created on: 2021/6/1 001 22:57
+@author: lucky
+@contact: QQ:382503189
+@Created on: 2022/6/1 001 22:57
 @Remark: 自定义视图集
 """
 import uuid

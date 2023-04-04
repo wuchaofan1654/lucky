@@ -1,7 +1,7 @@
 [
     {
-        "name": "DVAdmin团队",
-        "key": "dvadmin",
+        "name": "产研团队",
+        "key": "tech",
         "sort": 1,
         "owner": "",
         "phone": "",
@@ -10,8 +10,8 @@
         "parent": null,
         "children": [
             {
-                "name": "运营部",
-                "key": "",
+                "name": "前端研发",
+                "key": "fe",
                 "sort": 2,
                 "owner": "",
                 "phone": "",
@@ -21,14 +21,25 @@
                 "children": []
             },
             {
-                "name": "技术部",
-                "key": "technology",
+                "name": "后端研发",
+                "key": "server",
                 "sort": 1,
                 "owner": "",
                 "phone": "",
                 "email": "",
                 "status": true,
-                "parent": 3,
+                "parent": 1,
+                "children": []
+            },
+            {
+                "name": "QA团队",
+                "key": "qa",
+                "sort": 3,
+                "owner": "",
+                "phone": "",
+                "email": "",
+                "status": true,
+                "parent": 1,
                 "children": []
             }
         ]

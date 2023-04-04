@@ -17,7 +17,7 @@ from system.views.user import UserViewSet
 
 system_url = routers.SimpleRouter()
 system_url.register(r'menu', MenuViewSet)
-system_url.register(r'men', MenuButtonViewSet)
+system_url.register(r'menu_button', MenuButtonViewSet)
 system_url.register(r'role', RoleViewSet)
 system_url.register(r'dept', DeptViewSet)
 system_url.register(r'user', UserViewSet)

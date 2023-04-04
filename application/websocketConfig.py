@@ -2,9 +2,9 @@
 import logging
 import urllib.parse
 
-from asgiref.sync import sync_to_async, async_to_sync
+from asgiref.sync import async_to_sync
 from channels.db import database_sync_to_async
-from channels.generic.websocket import AsyncJsonWebsocketConsumer, AsyncWebsocketConsumer
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
 import json
 
 from channels.layers import get_channel_layer
@@ -12,11 +12,14 @@ from jwt import InvalidSignatureError
 from rest_framework.request import Request
 
 from application import settings
-from system.models import MessageCenter, Users, MessageCenterTargetUser
-from system.views.message_center import MessageCenterTargetUserSerializer
+from system.models import Users
+from system.serializers.message_center import MessageCenterTargetUserSerializer
 from utils.serializers import CustomModelSerializer
+import logging
+
 
 send_dict = {}
+logger = logging.getLogger('django')
 
 
 # 发送消息结构体
@@ -55,7 +58,13 @@ def request_data(scope):
     return qs
 
 
-class DvadminWebSocket(AsyncJsonWebsocketConsumer):
+class BasicWebSocket(AsyncJsonWebsocketConsumer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.service_uid = 0
+        self.user_id = 0
+        self.chat_group_name = 0
+
     async def connect(self):
         try:
             import jwt
@@ -82,10 +91,13 @@ class DvadminWebSocket(AsyncJsonWebsocketConsumer):
         except InvalidSignatureError:
             await self.disconnect(None)
 
+        except Exception as error:
+            logger.exception(error)
+
     async def disconnect(self, close_code):
         # Leave room group
         await self.channel_layer.group_discard(self.chat_group_name, self.channel_name)
-        print("连接关闭")
+        logger.debug("连接关闭")
         try:
             await self.close(close_code)
         except Exception as e:
@@ -93,11 +105,10 @@ class DvadminWebSocket(AsyncJsonWebsocketConsumer):
             pass
 
 
-class MegCenter(DvadminWebSocket):
+class MessageCenter(BasicWebSocket):
     """
     消息中心
     """
-
     async def receive(self, text_data):
         # 接受客户端的信息，你处理的函数
         text_data_json = json.loads(text_data)
@@ -119,12 +130,14 @@ class MessageCreateSerializer(CustomModelSerializer):
     """
     消息中心-新增-序列化器
     """
+
     class Meta:
         model = MessageCenter
         fields = "__all__"
         read_only_fields = ["id"]
 
-def websocket_push(user_id,message):
+
+def websocket_push(user_id, message):
     username = "user_" + str(user_id)
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)(
@@ -156,11 +169,11 @@ def create_message_push(
         "title": title,
         "content": content,
         "target_type": target_type,
-        "target_user":target_user,
-        "target_dept":target_dept,
-        "target_role":target_role
+        "target_user": target_user,
+        "target_dept": target_dept,
+        "target_role": target_role
     }
-    message_center_instance = MessageCreateSerializer(data=data,request=request)
+    message_center_instance = MessageCreateSerializer(data=data, request=request)
     message_center_instance.is_valid(raise_exception=True)
     message_center_instance.save()
     users = target_user or []
@@ -170,15 +183,15 @@ def create_message_push(
         users = Users.objects.filter(dept__id__in=target_dept).values_list('id', flat=True)
     if target_type in [3]:  # 系统通知
         users = Users.objects.values_list('id', flat=True)
-    targetuser_data = []
+    target_user_data = []
     for user in users:
-        targetuser_data.append({
-            "messagecenter": message_center_instance.instance.id,
+        target_user_data.append({
+            "message_center": message_center_instance.instance.id,
             "users": user
         })
-    targetuser_instance = MessageCenterTargetUserSerializer(data=targetuser_data, many=True, request=request)
-    targetuser_instance.is_valid(raise_exception=True)
-    targetuser_instance.save()
+    target_user_instance = MessageCenterTargetUserSerializer(data=target_user_data, many=True, request=request)
+    target_user_instance.is_valid(raise_exception=True)
+    target_user_instance.save()
     for user in users:
         username = "user_" + str(user)
         unread_count = async_to_sync(_get_message_unread)(user)

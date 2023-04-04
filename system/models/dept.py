@@ -2,6 +2,7 @@
 from django.db import models
 from utils.models import CoreModel, table_prefix
 
+
 class Dept(CoreModel):
     name = models.CharField(max_length=64, verbose_name="部门名称", help_text="部门名称")
     key = models.CharField(max_length=64, unique=True, null=True, blank=True, verbose_name="关联字符",

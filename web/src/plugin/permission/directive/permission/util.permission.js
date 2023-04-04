@@ -1,9 +1,9 @@
 /*
  * @创建文件时间: 2021-06-27 10:14:26
- * @Auther: 猿小天
- * @最后修改人: 猿小天
+ * @Auther: lucky
+ * @最后修改人: lucky
  * @最后修改时间: 2021-08-09 21:51:29
- * 联系Qq:1638245306
+ * 联系QQ:382503189
  * @文件介绍: 权限控制
  */
 import XEUtils from 'xe-utils'
@@ -27,8 +27,8 @@ export default {
       const userPermissionList = XEUtils.toTreeArray(menuTree)
       const permissionList = []
       for (const item of userPermissionList) {
-        if (item.menuPermission) {
-          for (const per of item.menuPermission) {
+        if (item.menu_permission) {
+          for (const per of item.menu_permission) {
             permissionList.push(item.path + ':' + per)
           }
         }

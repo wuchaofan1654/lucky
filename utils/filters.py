@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-@author: 猿小天
-@contact: QQ:1638245306
-@Created on: 2021/6/6 006 12:39
+@author: lucky
+@contact: QQ:382503189
+@Created on: 2022/6/6 006 12:39
 @Remark: 自定义过滤器
 """
 import operator
@@ -237,7 +237,7 @@ class CustomDjangoFilterBackend(DjangoFilterBackend):
                         if isinstance(field, (models.JSONField, TimeZoneField)):
                             continue
                         # warn if the field doesn't exist.
-                        if field is None:
+                        if not field:
                             undefined.append(field_name)
 
                         for lookup_expr in lookups:

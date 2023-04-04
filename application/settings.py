@@ -10,14 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-import os
 import sys
 from pathlib import Path
+from datetime import timedelta
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-from conf.env import *
+from application.conf.env import *
 
 
 # ================================================= #
@@ -304,7 +305,6 @@ AUTHENTICATION_BACKENDS = ["utils.backends.CustomBackend"]
 # ================================================= #
 # ****************** simplejwt配置 ***************** #
 # ================================================= #
-from datetime import timedelta
 
 SIMPLE_JWT = {
     # token有效时长

@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
-import json
 
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django_restql.fields import DynamicSerializerMethodField
 from rest_framework import serializers
-from rest_framework.decorators import action, permission_classes
-from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from system.models import MessageCenter, Users, MessageCenterTargetUser
-from utils.json_response import SuccessResponse, DetailResponse
 from utils.serializers import CustomModelSerializer
-from utils.viewset import CustomModelViewSet
+
+import logging
+
+
+logger = logging.getLogger('django')
 
 
 class MessageCenterSerializer(CustomModelSerializer):
@@ -101,7 +101,7 @@ def websocket_push(user_id, message):
     主动推送消息
     """
     username = "user_" + str(user_id)
-    print(103, message)
+    logger.info(f"code = 103, {message}")
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)(
         username,

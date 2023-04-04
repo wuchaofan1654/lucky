@@ -1,34 +1,18 @@
-<!--
- * @创建文件时间: 2021-08-14 17:37:36
- * @Auther: lucky
- * @最后修改人: lucky
- * @最后修改时间: 2021-08-14 21:27:12
- * 联系QQ:382503189
- * @文件介绍: 图片管理
--->
 <template>
   <d2-container :class="{ 'page-compact': crud.pageOptions.compact }">
-    <d2-crud-x
-      ref="d2Crud"
-      v-bind="_crudProps"
-      v-on="_crudListeners"
-      crud.options.tableType="vxe-table"
-    >
+    <template slot="header">录制列表</template>
+    <d2-crud-x ref="d2Crud" v-bind="_crudProps" v-on="_crudListeners">
       <div slot="header">
         <crud-search
           ref="search"
           :options="crud.searchOptions"
           @submit="handleSearch"
         />
-        <!-- <el-button-group>
-          <el-button
-            size="small"
-            v-permission="'Create'"
-            type="primary"
-            @click="addRow"
+        <el-button-group>
+          <el-button size="small" type="primary" @click="addRow"
             ><i class="el-icon-plus" /> 新增</el-button
           >
-        </el-button-group> -->
+        </el-button-group>
         <crud-toolbar
           :search.sync="crud.searchOptions.show"
           :compact.sync="crud.pageOptions.compact"
@@ -45,10 +29,8 @@
 import * as api from './api'
 import { crudOptions } from './crud'
 import { d2CrudPlus } from 'd2-crud-plus'
-
 export default {
-  name: 'file',
-
+  name: 'Index',
   mixins: [d2CrudPlus.crud],
   data () {
     return {}
@@ -74,11 +56,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.yxtInput {
-  .el-form-item__label {
-    color: #49a1ff;
-  }
-}
-</style>

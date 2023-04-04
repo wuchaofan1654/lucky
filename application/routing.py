@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.urls import path
-from application.websocketConfig import MegCenter
+from application.websocketConfig import MessageCenter
 
 websocket_urlpatterns = [
-    path('ws/<str:service_uid>/', MegCenter.as_asgi()), # consumers.DvadminWebSocket 是该路由的消费者
+    # consumers.BasicWebSocket 是该路由的消费者
+    path('ws/<str:service_uid>/', MessageCenter.as_asgi()),
 ]
 

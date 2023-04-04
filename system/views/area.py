@@ -15,6 +15,5 @@ class AreaViewSet(CustomModelViewSet):
     destroy:删除
     """
     queryset = Area.objects.all()
-    print(queryset)
     serializer_class = AreaSerializer
     extra_filter_backends = []

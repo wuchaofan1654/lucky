@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-@author: 猿小天
-@contact: QQ:1638245306
-@Created on: 2021/6/2 002 14:43
+@author: lucky
+@contact: QQ:382503189
+@Created on: 2022/6/2 002 14:43
 @Remark: 自定义的JsonResonpse文件
 """
 

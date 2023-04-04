@@ -3,6 +3,7 @@ from django.db import models
 from utils.models import CoreModel, table_prefix
 from application import dispatch
 
+
 class Dictionary(CoreModel):
     TYPE_LIST = (
         (0, "text"),

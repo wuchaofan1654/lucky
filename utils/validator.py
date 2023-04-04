@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-@author: 猿小天
-@contact: QQ:1638245306
-@Created on: 2021/6/2 002 17:03
+@author: lucky
+@contact: QQ:382503189
+@Created on: 2022/6/2 002 17:03
 @Remark: 自定义验证器
 """
 

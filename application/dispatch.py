@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from django.conf import settings
-from django.db import connection
 import logging
 
 
@@ -74,7 +73,6 @@ def init_dictionary():
 def init_system_config():
     """
     初始化系统配置
-    :param name:
     :return:
     """
     try:

@@ -28,14 +28,14 @@ export const crudOptions = (vm) => {
       rowId: 'id',
       height: '100%', // 表格高度100%, 使用toolbar必须设置
       highlightCurrentRow: false,
-      // defaultExpandAll: true,
-      // expandAll: true,
+      defaultExpandAll: true,
+      expandAll: true,
       treeConfig: {
         transform: true,
         rowField: 'id',
         parentField: 'parent',
         expandAll: true,
-        hasChild: 'hasChild',
+        hasChild: 'has_child',
         lazy: true,
         loadMethod: vm.loadContentMethod
       }

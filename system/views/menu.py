@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-@author: 猿小天
-@contact: QQ:1638245306
-@Created on: 2021/6/1 001 22:38
+@author: lucky
+@contact: QQ:382503189
+@Created on: 2022/6/1 001 22:38
 @Remark: 菜单模块
 """
 from rest_framework.decorators import action
@@ -39,13 +39,13 @@ class MenuViewSet(CustomModelViewSet):
         user = request.user
         queryset = self.queryset.filter(status=1)
         if not user.is_superuser:
-            menuIds = user.role.values_list('menu__id', flat=True)
-            queryset = Menu.objects.filter(id__in=menuIds, status=1)
+            menu_ids = user.role.values_list('menu__id', flat=True)
+            queryset = Menu.objects.filter(id__in=menu_ids, status=1)
         serializer = WebRouterSerializer(queryset, many=True, request=request)
         data = serializer.data
         return SuccessResponse(data=data, total=len(data), msg="获取成功")
 
-    def list(self,request):
+    def list(self, request):
         """懒加载"""
         params = request.query_params
         parent = params.get('parent', None)

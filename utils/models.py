@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-@author: 猿小天
-@contact: QQ:1638245306
-@Created on: 2021/5/31 031 22:08
+@author: lucky
+@contact: QQ:382503189
+@Created on: 2022/5/31 031 22:08
 @Remark: 公共基础model类
 """
 import uuid

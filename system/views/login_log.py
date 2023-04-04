@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-@author: 猿小天
-@contact: QQ:1638245306
-@Created on: 2021/6/3 003 0:30
+@author: lucky
+@contact: QQ:382503189
+@Created on: 2022/6/3 003 0:30
 @Remark: 按钮权限管理
 """
 from system.models import LoginLog

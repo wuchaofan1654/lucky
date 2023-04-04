@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-@author: 猿小天
-@contact: QQ:1638245306
-@Created on: 2021/6/1 001 22:38
+@author: lucky
+@contact: QQ:382503189
+@Created on: 2022/6/1 001 22:38
 @Remark: 菜单模块
 """
 from rest_framework import serializers
@@ -30,6 +30,7 @@ class MenuSerializer(CustomModelSerializer):
         has_child = Menu.objects.filter(parent=instance.id)
         if has_child:
             return True
+
         return False
 
     class Meta:

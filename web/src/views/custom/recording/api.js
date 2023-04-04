@@ -1,16 +1,12 @@
-/*
- * @创建文件时间: 2021-06-01 22:41:21
- * @Auther: lucky
- * @最后修改人: lucky
- * @最后修改时间: 2021-06-06 12:25:38
- * 联系QQ:382503189
- * @文件介绍: 菜单权限接口
- */
 import { request } from '@/api/service'
+import XEUtils from 'xe-utils'
 
-export const urlPrefix = '/api/system/menu_button/'
-
+export const urlPrefix = '/api/custom/recording/'
+/**
+ * 列表查询
+ */
 export function GetList (query) {
+  // query.limit = 999;
   return request({
     url: urlPrefix,
     method: 'get',
@@ -18,15 +14,20 @@ export function GetList (query) {
   })
 }
 
-export function createObj (obj, id) {
-  const data = { ...obj, menu: id }
+/**
+ * 新增
+ */
+export function createObj (obj) {
   return request({
     url: urlPrefix,
     method: 'post',
-    data: data
+    data: obj
   })
 }
 
+/**
+ * 修改
+ */
 export function UpdateObj (obj) {
   return request({
     url: urlPrefix + obj.id + '/',
@@ -35,6 +36,9 @@ export function UpdateObj (obj) {
   })
 }
 
+/**
+ * 删除
+ */
 export function DelObj (id) {
   return request({
     url: urlPrefix + id + '/',

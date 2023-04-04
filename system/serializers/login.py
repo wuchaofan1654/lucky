@@ -1,3 +1,4 @@
+from abc import ABC
 
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
@@ -17,6 +18,7 @@ class LoginSerializer(TokenObtainPairSerializer):
     captcha = serializers.CharField(
         max_length=6, required=False, allow_null=True, allow_blank=True
     )
+
     class Meta:
         model = Users
         fields = "__all__"
@@ -64,4 +66,3 @@ class LoginLogSerializer(CustomModelSerializer):
         model = LoginLog
         fields = "__all__"
         read_only_fields = ["id"]
-

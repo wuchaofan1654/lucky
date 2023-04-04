@@ -26,7 +26,7 @@ loglevel = 'info'
 access_log_format = '%(t)s %(p)s %(h)s "%(r)s" %(s)s %(L)s %(b)s %(f)s" "%(a)s"'
 # 监听队列
 backlog = 512
-#进程名
+# 进程名
 proc_name = 'gunicorn_process'
 # 设置超时时间120s，默认为30s。按自己的需求进行设置timeout = 120
 timeout = 120

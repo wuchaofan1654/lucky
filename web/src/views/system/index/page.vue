@@ -1,9 +1,9 @@
 <!--
  * @创建文件时间: 2021-06-01 22:41:21
- * @Auther: 猿小天
- * @最后修改人: 猿小天
+ * @Auther: lucky
+ * @最后修改人: lucky
  * @最后修改时间: 2021-07-18 00:50:39
- * 联系Qq:1638245306
+ * 联系QQ:382503189
  * @文件介绍:
 -->
 <template>
@@ -40,9 +40,9 @@
               </p>
             </div>
             <div>
-              <el-tag>猿小天</el-tag>
+              <el-tag>lucky</el-tag>
               <p style="text-indent: 2em">
-                hello，大家好！我是猿小天~我一直相信Python会是未来的主流语言，所以坚信“人生苦短，我用Python”。在一次偶然的机会，看到dvadmin1.x版本，并认识了<b>李强</b>，我们都坚信Django在WEB开发领域会大发异彩；于是一拍即合，开始着手打造dvadmin2版本。
+                hello，大家好！我是lucky~我一直相信Python会是未来的主流语言，所以坚信“人生苦短，我用Python”。在一次偶然的机会，看到dvadmin1.x版本，并认识了<b>李强</b>，我们都坚信Django在WEB开发领域会大发异彩；于是一拍即合，开始着手打造dvadmin2版本。
               </p>
             </div>
           </div>
