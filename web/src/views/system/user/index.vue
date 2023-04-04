@@ -203,11 +203,11 @@ export default {
     loadChildrenMethod ({ row }) {
       return new Promise(resolve => {
         setTimeout(() => {
-          const childs = [
+          const children = [
             { id: row.id + 100000, parent: row.id, name: row.name + 'Test45', type: 'mp4', size: null, date: '2021-10-03', hasChild: true },
             { id: row.id + 150000, parent: row.id, name: row.name + 'Test56', type: 'mp3', size: null, date: '2021-07-09', hasChild: false }
           ]
-          resolve(childs)
+          resolve(children)
         }, 500)
       })
     }

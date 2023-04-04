@@ -20,6 +20,7 @@ from utils.json_response import SuccessResponse, ErrorResponse, DetailResponse
 from utils.permission import CustomPermission
 from django_restql.mixins import QueryArgumentsMixin
 
+
 class CustomModelViewSet(ModelViewSet,ImportSerializerMixin,ExportSerializerMixin,QueryArgumentsMixin):
     """
     自定义的ModelViewSet:
@@ -50,7 +51,6 @@ class CustomModelViewSet(ModelViewSet,ImportSerializerMixin,ExportSerializerMixi
         if getattr(self, 'values_queryset', None):
             return self.values_queryset
         return super().get_queryset()
-
 
     def get_serializer_class(self):
         action_serializer_name = f"{self.action}_serializer_class"
@@ -106,7 +106,6 @@ class CustomModelViewSet(ModelViewSet,ImportSerializerMixin,ExportSerializerMixi
         instance = self.get_object()
         instance.delete()
         return DetailResponse(data=[], msg="删除成功")
-
 
     keys = openapi.Schema(description='主键列表',type=openapi.TYPE_ARRAY,items=openapi.TYPE_STRING)
     @swagger_auto_schema(request_body=openapi.Schema(

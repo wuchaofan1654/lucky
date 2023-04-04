@@ -85,7 +85,7 @@ class MessageCenterTargetUserListSerializer(CustomModelSerializer):
     def get_is_read(self, instance):
         user_id = self.request.user.id
         message_center_id = instance.id
-        queryset = MessageCenterTargetUser.objects.filter(messagecenter__id=message_center_id, users_id=user_id).first()
+        queryset = MessageCenterTargetUser.objects.filter(message_center__id=message_center_id, users_id=user_id).first()
         if queryset:
             return queryset.is_read
         return False

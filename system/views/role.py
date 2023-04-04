@@ -35,14 +35,14 @@ class RoleViewSet(CustomModelViewSet):
     def role_get_menu(self, request):
         """根据当前用户的角色返回角色拥有的菜单"""
         is_superuser = request.user.is_superuser
-        is_admin = request.user.role.values_list('admin',flat=True)
+        is_admin = request.user.role.values_list('admin', flat=True)
         if is_superuser or True in is_admin:
             queryset = Menu.objects.filter(status=1).all()
         else:
-            menu_id_list = request.user.role.values_list('menu',flat=True)
+            menu_id_list = request.user.role.values_list('menu', flat=True)
             queryset = Menu.objects.filter(id__in=menu_id_list)
         # queryset = self.filter_queryset(queryset)
-        serializer = MenuPermissionSerializer(queryset, many=True,request=request)
+        serializer = MenuPermissionSerializer(queryset, many=True, request=request)
         return DetailResponse(data=serializer.data)
 
     @action(methods=['GET'], detail=False, permission_classes=[IsAuthenticated])
@@ -125,12 +125,12 @@ class RoleViewSet(CustomModelViewSet):
         return DetailResponse(data=data)
 
     @action(methods=['GET'], detail=False, permission_classes=[IsAuthenticated])
-    def data_scope_dept(self,request):
+    def data_scope_dept(self, request):
         """根据当前角色获取部门信息"""
         is_superuser = request.user.is_superuser
         if is_superuser:
-            queryset = Dept.objects.values('id','name','parent')
+            queryset = Dept.objects.values('id', 'name', 'parent')
         else:
-            dept_list = request.user.role.values_list('dept',flat=True)
-            queryset = Dept.objects.filter(id__in=dept_list).values('id','name','parent')
+            dept_list = request.user.role.values_list('dept', flat=True)
+            queryset = Dept.objects.filter(id__in=dept_list).values('id', 'name', 'parent')
         return DetailResponse(data=queryset)

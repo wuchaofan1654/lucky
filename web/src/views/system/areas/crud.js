@@ -14,15 +14,15 @@ export const crudOptions = (vm) => {
       treeConfig: { // 树形数据配置
         lazy: true,
         children: 'children',
-        hasChild: 'hasChildren',
+        hasChild: 'has_children',
         loadMethod: ({ row }) => {
           return request({
             url: '/api/system/area/',
             method: 'get',
-            params: { pcode: row.code, limit: 999 }
+            params: { f_code_id: row.code, limit: 999 }
           }).then(ret => {
-            ret.data.data.map(value => { value.hasChildren = value.pcode_count !== 0 })
-            row.hasChildren = false
+            ret.data.data.map(value => { value.has_children = value.f_code_count !== 0 })
+            row.has_children = false
             return ret.data.data
           })
         },
@@ -82,7 +82,7 @@ export const crudOptions = (vm) => {
       },
       {
         title: '父级地区',
-        key: 'pcode',
+        key: 'f_code_id',
         show: false,
         search: {
           disabled: false

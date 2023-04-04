@@ -269,7 +269,7 @@ export default {
       const menuData = XEUtils.toTreeArray(this.menuOptions)
       const permissionData = []
       menuData.forEach(x => {
-        const checkedPermission = x.menuPermission.filter(f => {
+        const checkedPermission = x.menu_permission.filter(f => {
           return f.checked
         })
 

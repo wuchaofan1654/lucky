@@ -15,14 +15,14 @@ class Role(CoreModel):
     sort = models.IntegerField(default=1, verbose_name="角色顺序", help_text="角色顺序")
     status = models.BooleanField(default=True, verbose_name="角色状态", help_text="角色状态")
     admin = models.BooleanField(default=False, verbose_name="是否为admin", help_text="是否为admin")
-    DATASCOPE_CHOICES = (
+    DATA_SCOPE_CHOICES = (
         (0, "仅本人数据权限"),
         (1, "本部门及以下数据权限"),
         (2, "本部门数据权限"),
         (3, "全部数据权限"),
         (4, "自定数据权限"),
     )
-    data_range = models.IntegerField(default=0, choices=DATASCOPE_CHOICES, verbose_name="数据权限范围",
+    data_range = models.IntegerField(default=0, choices=DATA_SCOPE_CHOICES, verbose_name="数据权限范围",
                                      help_text="数据权限范围")
     remark = models.TextField(verbose_name="备注", help_text="备注", null=True, blank=True)
     dept = models.ManyToManyField(to="Dept", verbose_name="数据权限-关联部门", db_constraint=False,

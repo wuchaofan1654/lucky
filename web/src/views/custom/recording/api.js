@@ -1,5 +1,4 @@
-import { request } from '@/api/service'
-import XEUtils from 'xe-utils'
+import {downloadFile, request} from '@/api/service'
 
 export const urlPrefix = '/api/custom/recording/'
 /**
@@ -44,5 +43,17 @@ export function DelObj (id) {
     url: urlPrefix + id + '/',
     method: 'delete',
     data: { id }
+  })
+}
+
+/**
+ * 导出
+ * @param params
+ */
+export function exportData (params) {
+  return downloadFile({
+    url: urlPrefix + 'export/',
+    params: params,
+    method: 'post'
   })
 }

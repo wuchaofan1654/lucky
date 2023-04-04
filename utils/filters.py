@@ -61,8 +61,8 @@ class DataLevelPermissionsFilter(BaseFilterBackend):
         """
         api = request.path  # 当前请求接口
         method = request.method  # 当前请求方法
-        methodList = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-        method = methodList.index(method)
+        method_list = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+        method = method_list.index(method)
         # ***接口白名单***
         api_white_list = ApiWhiteList.objects.filter(enable_datasource=False).values(
             permission__api=F("url"), permission__method=F("method")
@@ -76,8 +76,8 @@ class DataLevelPermissionsFilter(BaseFilterBackend):
         ]
         for item in api_white_list:
             new_api = api + ":" + str(method)
-            matchObj = re.match(item, new_api, re.M | re.I)
-            if matchObj is None:
+            match_obj = re.match(item, new_api, re.M | re.I)
+            if match_obj is None:
                 continue
             else:
                 return queryset
@@ -106,23 +106,23 @@ class DataLevelPermissionsFilter(BaseFilterBackend):
             # (3, "全部数据权限"),
             # (4, "自定数据权限")
             role_list = request.user.role.filter(status=1).values("admin", "data_range")
-            dataScope_list = []  # 权限范围列表
+            data_scope_list = []  # 权限范围列表
             for ele in role_list:
                 # 判断用户是否为超级管理员角色/如果拥有[全部数据权限]则返回所有数据
                 if 3 == ele.get("data_range") or ele.get("admin") == True:
                     return queryset
-                dataScope_list.append(ele.get("data_range"))
-            dataScope_list = list(set(dataScope_list))
+                data_scope_list.append(ele.get("data_range"))
+            data_scope_list = list(set(data_scope_list))
 
             # 4. 只为仅本人数据权限时只返回过滤本人数据，并且部门为自己本部门(考虑到用户会变部门，只能看当前用户所在的部门数据)
-            if 0 in dataScope_list:
+            if 0 in data_scope_list:
                 return queryset.filter(
                     creator=request.user, dept_belong_id=user_dept_id
                 )
 
             # 5. 自定数据权限 获取部门，根据部门过滤
             dept_list = []
-            for ele in dataScope_list:
+            for ele in data_scope_list:
                 if ele == 4:
                     dept_list.extend(
                         request.user.role.filter(status=1).values_list(
@@ -209,7 +209,7 @@ class CustomDjangoFilterBackend(DjangoFilterBackend):
             return filterset_class
 
         if filterset_fields and queryset is not None:
-            MetaBase = getattr(self.filterset_base, "Meta", object)
+            meta_base = getattr(self.filterset_base, "Meta", object)
 
             class AutoFilterSet(self.filterset_base):
                 @classmethod
@@ -270,7 +270,7 @@ class CustomDjangoFilterBackend(DjangoFilterBackend):
                     filters.update(cls.declared_filters)
                     return filters
 
-                class Meta(MetaBase):
+                class Meta(meta_base):
                     model = queryset.model
                     fields = filterset_fields
 

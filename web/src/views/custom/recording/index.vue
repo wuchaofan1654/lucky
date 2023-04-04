@@ -10,8 +10,21 @@
         />
         <el-button-group>
           <el-button size="small" type="primary" @click="addRow"
-            ><i class="el-icon-plus" /> 新增</el-button
-          >
+            ><i class="el-icon-plus" /> 新增</el-button>
+          <el-button size="small" type="danger" @click="batchDelete"
+            ><i class="el-icon-delete" /> 批量删除</el-button>
+          <el-button
+            size="small"
+            type="warning"
+            @click="onExport"
+            v-permission="'Export'"
+            ><i class="el-icon-download" /> 导出
+          </el-button>
+          <importExcel
+            api="api/custom/user/"
+            v-permission="'Export'"
+            >导入
+          </importExcel>
         </el-button-group>
         <crud-toolbar
           :search.sync="crud.searchOptions.show"
@@ -29,6 +42,7 @@
 import * as api from './api'
 import { crudOptions } from './crud'
 import { d2CrudPlus } from 'd2-crud-plus'
+
 export default {
   name: 'Index',
   mixins: [d2CrudPlus.crud],
@@ -43,15 +57,24 @@ export default {
       return api.GetList(query)
     },
     addRequest (row) {
-      console.log('api', api)
       return api.AddObj(row)
     },
     updateRequest (row) {
-      console.log('----', row)
       return api.UpdateObj(row)
     },
     delRequest (row) {
       return api.DelObj(row.id)
+    },
+    onExport () {
+      const that = this
+      this.$confirm('是否确认导出所有数据项?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function () {
+        const query = that.getSearch().getForm()
+        return api.exportData({ ...query })
+      })
     }
   }
 }
