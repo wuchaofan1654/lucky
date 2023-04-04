@@ -6,14 +6,14 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "application.settings")
 django.setup()
 
-from system.views.user import UsersInitSerializer
-from system.views.menu import MenuInitSerializer
+from system.serializers.user import UsersInitSerializer
+from system.serializers.menu import MenuInitSerializer
 from utils.core_initialize import CoreInitialize
-from system.views.role import RoleInitSerializer
-from system.views.api_white_list import ApiWhiteListInitSerializer
-from system.views.dept import DeptInitSerializer
-from system.views.dictionary import DictionaryInitSerializer
-from system.views.system_config import SystemConfigInitSerializer
+from system.serializers.role import RoleInitSerializer
+from system.serializers.api_white_list import ApiWhiteListInitSerializer
+from system.serializers.dept import DeptInitSerializer
+from system.serializers.dictionary import DictionaryInitSerializer
+from system.serializers.system_config import SystemConfigInitSerializer
 
 
 class Initialize(CoreInitialize):

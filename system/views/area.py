@@ -1,36 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.db.models import Q
-from rest_framework import serializers
 
 from system.models import Area
-from utils.json_response import SuccessResponse
-from utils.serializers import CustomModelSerializer
+from system.serializers import AreaSerializer
 from utils.viewset import CustomModelViewSet
-
-
-class AreaSerializer(CustomModelSerializer):
-    """
-    地区-序列化器
-    """
-    pcode_count = serializers.SerializerMethodField(read_only=True)
-
-    def get_pcode_count(self, instance: Area):
-        return Area.objects.filter(pcode=instance).count()
-
-    class Meta:
-        model = Area
-        fields = "__all__"
-        read_only_fields = ["id"]
-
-
-class AreaCreateUpdateSerializer(CustomModelSerializer):
-    """
-    地区管理 创建/更新时的列化器
-    """
-
-    class Meta:
-        model = Area
-        fields = '__all__'
 
 
 class AreaViewSet(CustomModelViewSet):
@@ -43,5 +15,6 @@ class AreaViewSet(CustomModelViewSet):
     destroy:删除
     """
     queryset = Area.objects.all()
+    print(queryset)
     serializer_class = AreaSerializer
     extra_filter_backends = []

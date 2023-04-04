@@ -7,19 +7,8 @@
 @Remark: 按钮权限管理
 """
 from system.models import LoginLog
-from utils.serializers import CustomModelSerializer
+from system.serializers import LoginLogSerializer
 from utils.viewset import CustomModelViewSet
-
-
-class LoginLogSerializer(CustomModelSerializer):
-    """
-    登录日志权限-序列化器
-    """
-
-    class Meta:
-        model = LoginLog
-        fields = "__all__"
-        read_only_fields = ["id"]
 
 
 class LoginLogViewSet(CustomModelViewSet):

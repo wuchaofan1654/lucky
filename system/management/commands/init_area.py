@@ -11,9 +11,6 @@ import os
 import django
 import pypinyin
 from django.core.management import BaseCommand
-from django.db import connection
-
-from application import dispatch
 from application.settings import BASE_DIR
 from system.models import Area
 
@@ -24,7 +21,7 @@ django.setup()
 area_code_list = []
 
 
-def area_list(code_list, pcode=None, depth=1):
+def area_list(code_list, f_code=None, depth=1):
     """
     递归获取所有列表
     """
@@ -40,15 +37,15 @@ def area_list(code_list, pcode=None, depth=1):
                 "level": depth,
                 "pinyin": pinyin,
                 "initials": pinyin[0].upper() if pinyin else "#",
-                "pcode_id": pcode,
+                "f_code_id": f_code,
             }
         )
         if children:
-            area_list(code_list=children, pcode=code, depth=depth + 1)
+            area_list(code_list=children, f_code=code, depth=depth + 1)
 
 
 def main():
-    with open(os.path.join(BASE_DIR, 'dvadmin', 'system', 'util', 'pca-code.json'), 'r', encoding="utf-8") as load_f:
+    with open(os.path.join(BASE_DIR, 'system', 'fixtures', 'pca-code.json'), 'r', encoding="utf-8") as load_f:
         code_list = json.load(load_f)
     area_list(code_list)
     if Area.objects.count() == 0:
@@ -70,15 +67,5 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         print(f"正在准备初始化省份数据...")
-
-        if dispatch.is_tenants_mode():
-            from django_tenants.utils import get_tenant_model
-            from django_tenants.utils import tenant_context
-            for tenant in get_tenant_model().objects.exclude(schema_name='public'):
-                with tenant_context(tenant):
-                    print(f"租户[{connection.tenant.schema_name}]初始化数据开始...")
-                    main()
-                    print(f"租户[{connection.tenant.schema_name}]初始化数据完成！")
-        else:
-            main()
+        main()
         print("省份数据初始化数据完成！")

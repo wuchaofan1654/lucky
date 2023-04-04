@@ -8,7 +8,7 @@ from system.views.dictionary import DictionaryViewSet
 from system.views.file_list import FileViewSet
 from system.views.login_log import LoginLogViewSet
 from system.views.menu import MenuViewSet
-from system.views.menu_button import MenuButtonViewSet
+from system.views.menu import MenuButtonViewSet
 from system.views.message_center import MessageCenterViewSet
 from system.views.operation_log import OperationLogViewSet
 from system.views.role import RoleViewSet
@@ -17,7 +17,7 @@ from system.views.user import UserViewSet
 
 system_url = routers.SimpleRouter()
 system_url.register(r'menu', MenuViewSet)
-system_url.register(r'menu_button', MenuButtonViewSet)
+system_url.register(r'men', MenuButtonViewSet)
 system_url.register(r'role', RoleViewSet)
 system_url.register(r'dept', DeptViewSet)
 system_url.register(r'user', UserViewSet)

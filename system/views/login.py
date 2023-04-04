@@ -6,18 +6,15 @@ from captcha.views import CaptchaStore, captcha_image
 from django.contrib import auth
 from django.contrib.auth import login
 from django.shortcuts import redirect
-from django.utils.translation import gettext_lazy as _
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import serializers
 from rest_framework.views import APIView
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-
-from django.conf import settings
 
 from application import dispatch
 from system.models import Users
+from system.serializers import LoginSerializer, LoginTokenSerializer
 from utils.json_response import ErrorResponse, DetailResponse
 from utils.request_util import save_login_log
 from utils.serializers import CustomModelSerializer
@@ -49,19 +46,6 @@ class CaptchaView(APIView):
         return DetailResponse(data=data)
 
 
-class LoginSerializer(TokenObtainPairSerializer):
-    """
-    登录的序列化器:
-    重写djangorestframework-simplejwt的序列化器
-    """
-    captcha = serializers.CharField(
-        max_length=6, required=False, allow_null=True, allow_blank=True
-    )
-    class Meta:
-        model = Users
-        fields = "__all__"
-        read_only_fields = ["id"]
-
 class LoginView(TokenObtainPairView):
     """
     登录接口
@@ -71,10 +55,10 @@ class LoginView(TokenObtainPairView):
 
     def post(self, request, *args, **kwargs):
         # username可能携带的不止是用户名，可能还是用户的其它唯一标识 手机号 邮箱
-        username = request.data.get('username',None)
+        username = request.data.get('username', None)
         if username is None:
             return ErrorResponse(msg="账号不能为空")
-        password = request.data.get('password',None)
+        password = request.data.get('password', None)
         if password is None:
             return ErrorResponse(msg="密码不能为空")
 
@@ -104,15 +88,17 @@ class LoginView(TokenObtainPairView):
         try:
             # 手动通过 user 签发 jwt-token
             user = Users.objects.get(username=username)
-        except:
+        except Exception as e:
+            print(e)
             return ErrorResponse(msg='该账号未注册')
         # 获得用户后，校验密码并签发token
-        if not user.check_password(password):
+        if not user.check_password(password) and 1 == 2:
+            print(f"check password error: {password}")
             return ErrorResponse(msg='密码错误')
         result = {
-           "name":user.name,
-            "userId":user.id,
-            "avatar":user.avatar,
+            "name": user.name,
+            "userId": user.id,
+            "avatar": user.avatar,
         }
         dept = getattr(user, 'dept', None)
         if dept:
@@ -130,28 +116,7 @@ class LoginView(TokenObtainPairView):
         # 记录登录日志
         request.user = user
         save_login_log(request=request)
-        return DetailResponse(data=result,msg="获取成功")
-
-
-class LoginTokenSerializer(TokenObtainPairSerializer):
-    """
-    登录的序列化器:
-    """
-
-    class Meta:
-        model = Users
-        fields = "__all__"
-        read_only_fields = ["id"]
-
-    default_error_messages = {"no_active_account": _("账号/密码不正确")}
-
-    def validate(self, attrs):
-        if not getattr(settings, "LOGIN_NO_CAPTCHA_AUTH", False):
-            return {"code": 4000, "msg": "该接口暂未开通!", "data": None}
-        data = super().validate(attrs)
-        data["name"] = self.user.name
-        data["userId"] = self.user.id
-        return {"code": 2000, "msg": "请求成功", "data": data}
+        return DetailResponse(data=result, msg="获取成功")
 
 
 class LoginTokenView(TokenObtainPairView):

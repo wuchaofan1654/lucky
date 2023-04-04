@@ -8,29 +8,8 @@
 """
 
 from system.models import OperationLog
-from utils.serializers import CustomModelSerializer
+from system.serializers import OperationLogSerializer
 from utils.viewset import CustomModelViewSet
-
-
-class OperationLogSerializer(CustomModelSerializer):
-    """
-    日志-序列化器
-    """
-
-    class Meta:
-        model = OperationLog
-        fields = "__all__"
-        read_only_fields = ["id"]
-
-
-class OperationLogCreateUpdateSerializer(CustomModelSerializer):
-    """
-    操作日志  创建/更新时的列化器
-    """
-
-    class Meta:
-        model = OperationLog
-        fields = '__all__'
 
 
 class OperationLogViewSet(CustomModelViewSet):
