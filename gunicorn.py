@@ -1,9 +1,10 @@
 # gunicorn.conf
 # coding:utf-8
 # 启动命令：gunicorn -c gunicorn.py application.asgi:application
+# debug启动：gunicorn -c gunicorn.py application.asgi:application --preload
 import multiprocessing
 # 并行工作进程数, int，cpu数量*2+1 推荐进程数
-workers = multiprocessing.cpu_count() * 2 + 1
+workers = multiprocessing.cpu_count() * 0 + 1
 # 指定每个进程开启的线程数
 threads = 3
 # 绑定的ip与端口

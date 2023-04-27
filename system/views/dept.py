@@ -9,9 +9,9 @@ from rest_framework.decorators import action
 
 from system.models import Dept
 from system.serializers import DeptSerializer, DeptCreateUpdateSerializer, DeptImportSerializer
-from utils.json_response import DetailResponse, SuccessResponse
-from utils.permission import AnonymousUserPermission
-from utils.viewset import CustomModelViewSet
+from system.utils.json_response import DetailResponse, SuccessResponse
+from system.utils.permission import AnonymousUserPermission
+from system.utils.viewset import CustomModelViewSet
 
 
 class DeptViewSet(CustomModelViewSet):

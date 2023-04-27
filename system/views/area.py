@@ -2,7 +2,7 @@
 
 from system.models import Area
 from system.serializers import AreaSerializer
-from utils.viewset import CustomModelViewSet
+from system.utils.viewset import CustomModelViewSet
 
 
 class AreaViewSet(CustomModelViewSet):

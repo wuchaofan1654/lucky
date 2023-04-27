@@ -6,7 +6,7 @@ from datetime import datetime
 import openpyxl
 from django.conf import settings
 
-from utils.validator import CustomValidationError
+from system.utils.validator import CustomValidationError
 
 
 def import_to_data(file_url, field_data, m2m_fields=None):

@@ -14,12 +14,10 @@ import sys
 from pathlib import Path
 from datetime import timedelta
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 from application.conf.env import *
-
 
 # ================================================= #
 # ******************** 动态配置 ******************** #
@@ -47,6 +45,7 @@ ALLOWED_HOSTS = locals().get("ALLOWED_HOSTS", ["*"])
 # Application definition
 
 INSTALLED_APPS = [
+    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -54,6 +53,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_comment_migrate",
     "rest_framework",
+    "django_celery_results",
+    "django_celery_beat",
     "django_filters",
     "corsheaders",  # 注册跨域app
     "system",
@@ -73,7 +74,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "utils.middleware.ApiLoggingMiddleware",
+    "system.utils.middleware.ApiLoggingMiddleware",
 ]
 
 ROOT_URLCONF = "application.urls"
@@ -95,7 +96,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "application.wsgi.application"
-
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -133,6 +133,23 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
+
+# celery相关配置
+# 可接受的内容格式
+accept_content = ["json"]
+# 任务序列化数据格式
+task_serializer = "json"
+# 结果序列化数据格式
+result_serializer = "json"
+
+# 可选参数：给某个任务限流
+# task_annotations = {'tasks.my_task': {'rate_limit': '10/s'}}
+
+# 可选参数：给任务设置超时时间。超时立即中止worker
+# task_time_limit = 10 * 60
+
+# 可选参数：给任务设置软超时时间，超时抛出Exception
+# task_soft_time_limit = 10 * 60
 
 LANGUAGE_CODE = "zh-hans"
 
@@ -187,6 +204,20 @@ CHANNEL_LAYERS = {
 #     },
 # }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": "",
+        },
+    },
+}
+
+REDIS_TIMEOUT = 7 * 24 * 60 * 60
+CUBES_REDIS_TIMEOUT = 60 * 60
+NEVER_REDIS_TIMEOUT = 365 * 24 * 60 * 60
 
 # ================================================= #
 # ********************* 日志配置 ******************* #
@@ -280,11 +311,11 @@ REST_FRAMEWORK = {
     "DATE_FORMAT": "%Y-%m-%d",
     "DEFAULT_FILTER_BACKENDS": (
         # 'django_filters.rest_framework.DjangoFilterBackend',
-        "utils.filters.CustomDjangoFilterBackend",
+        "system.utils.filters.CustomDjangoFilterBackend",
         "rest_framework.filters.SearchFilter",
         "rest_framework.filters.OrderingFilter",
     ),
-    "DEFAULT_PAGINATION_CLASS": "utils.pagination.CustomPagination",  # 自定义分页
+    "DEFAULT_PAGINATION_CLASS": "system.utils.pagination.CustomPagination",  # 自定义分页
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.SessionAuthentication",
@@ -295,13 +326,13 @@ REST_FRAMEWORK = {
         # 'rest_framework.permissions.AllowAny', # 允许所有
         # 'rest_framework.permissions.IsAuthenticatedOrReadOnly', # 有身份 或者 只读访问(self.list,self.retrieve)
     ],
-    "EXCEPTION_HANDLER": "utils.exception.CustomExceptionHandler",  # 自定义的异常处理
+    "EXCEPTION_HANDLER": "system.utils.exception.CustomExceptionHandler",  # 自定义的异常处理
 }
 # ================================================= #
 # ******************** 登录方式配置 ******************** #
 # ================================================= #
 
-AUTHENTICATION_BACKENDS = ["utils.backends.CustomBackend"]
+AUTHENTICATION_BACKENDS = ["system.utils.backends.CustomBackend"]
 # ================================================= #
 # ****************** simplejwt配置 ***************** #
 # ================================================= #
@@ -338,7 +369,7 @@ SWAGGER_SETTINGS = {
     "OPERATIONS_SORTER": "alpha",
     "VALIDATOR_URL": None,
     "AUTO_SCHEMA_TYPE": 2,  # 分组根据url层级分，0、1 或 2 层
-    "DEFAULT_AUTO_SCHEMA_CLASS": "utils.swagger.CustomSwaggerAutoSchema",
+    "DEFAULT_AUTO_SCHEMA_CLASS": "system.utils.swagger.CustomSwaggerAutoSchema",
 }
 
 # ================================================= #

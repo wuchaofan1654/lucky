@@ -8,7 +8,7 @@
 """
 from system.models import LoginLog
 from system.serializers import LoginLogSerializer
-from utils.viewset import CustomModelViewSet
+from system.utils.viewset import CustomModelViewSet
 
 
 class LoginLogViewSet(CustomModelViewSet):

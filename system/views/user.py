@@ -8,8 +8,8 @@ from application import dispatch
 from system.models import Users, Role, Dept
 from system.serializers import UserSerializer, UserCreateSerializer, UserUpdateSerializer, ExportUserProfileSerializer, \
     UserProfileImportSerializer, UserInfoUpdateSerializer
-from utils.json_response import ErrorResponse, DetailResponse
-from utils.viewset import CustomModelViewSet
+from system.utils.json_response import ErrorResponse, DetailResponse
+from system.utils.viewset import CustomModelViewSet
 
 
 def recursion(instance, parent, result):

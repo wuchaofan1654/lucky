@@ -11,8 +11,8 @@ from rest_framework.views import APIView
 from application import dispatch
 from system.models import Dictionary
 from system.serializers import DictionarySerializer
-from utils.json_response import SuccessResponse
-from utils.viewset import CustomModelViewSet
+from system.utils.json_response import SuccessResponse
+from system.utils.viewset import CustomModelViewSet
 
 
 class DictionaryViewSet(CustomModelViewSet):

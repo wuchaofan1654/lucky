@@ -10,8 +10,6 @@ from rest_framework import serializers
 from rest_framework.fields import empty
 from rest_framework.request import Request
 from rest_framework.serializers import ModelSerializer
-from django.utils.functional import cached_property
-from rest_framework.utils.serializer_helpers import BindingDict
 
 from system.models import Users
 from django_restql.mixins import DynamicFieldsMixin

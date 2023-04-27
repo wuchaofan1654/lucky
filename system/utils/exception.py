@@ -14,7 +14,7 @@ from django.http import Http404
 from rest_framework.exceptions import APIException as DRFAPIException, AuthenticationFailed
 from rest_framework.views import set_rollback
 
-from utils.json_response import ErrorResponse
+from system.utils.json_response import ErrorResponse
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ def CustomExceptionHandler(ex, context):
     if isinstance(ex, AuthenticationFailed):
         code = 401
         msg = ex.detail
-    elif isinstance(ex,Http404):
+    elif isinstance(ex, Http404):
         code = 400
         msg = "接口地址不正确"
     elif isinstance(ex, DRFAPIException):

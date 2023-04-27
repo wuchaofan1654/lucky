@@ -8,7 +8,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.utils.deprecation import MiddlewareMixin
 
 from system.models import OperationLog
-from utils.request_util import get_request_user, get_request_ip, get_request_data, get_request_path, get_os, \
+from system.utils.request_util import get_request_user, get_request_ip, get_request_data, get_request_path, get_os, \
     get_browser, get_verbose_name
 
 

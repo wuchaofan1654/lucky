@@ -4,7 +4,7 @@
 @author: lucky
 @contact: QQ:382503189
 @Created on: 2022/6/2 002 14:43
-@Remark: 自定义的JsonResonpse文件
+@Remark: 自定义的JsonResponse文件
 """
 
 from rest_framework.response import Response

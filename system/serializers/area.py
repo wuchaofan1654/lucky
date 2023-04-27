@@ -3,7 +3,7 @@
 from rest_framework import serializers
 
 from system.models import Area
-from utils.serializers import CustomModelSerializer
+from system.utils.serializers import CustomModelSerializer
 
 
 class AreaSerializer(CustomModelSerializer):

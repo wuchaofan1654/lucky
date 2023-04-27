@@ -8,7 +8,7 @@
 """
 
 from system.models import OperationLog
-from utils.serializers import CustomModelSerializer
+from system.utils.serializers import CustomModelSerializer
 
 
 class OperationLogSerializer(CustomModelSerializer):

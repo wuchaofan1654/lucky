@@ -6,7 +6,6 @@
 @Created on: 2022/6/1 001 22:57
 @Remark: 自定义视图集
 """
-import uuid
 
 from django.db import transaction
 from drf_yasg import openapi
@@ -14,14 +13,14 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 
-from utils.filters import DataLevelPermissionsFilter
-from utils.import_export_mixin import ExportSerializerMixin, ImportSerializerMixin
-from utils.json_response import SuccessResponse, ErrorResponse, DetailResponse
-from utils.permission import CustomPermission
+from system.utils.filters import DataLevelPermissionsFilter
+from system.utils.import_export_mixin import ExportSerializerMixin, ImportSerializerMixin
+from system.utils.json_response import SuccessResponse, ErrorResponse, DetailResponse
+from system.utils.permission import CustomPermission
 from django_restql.mixins import QueryArgumentsMixin
 
 
-class CustomModelViewSet(ModelViewSet,ImportSerializerMixin,ExportSerializerMixin,QueryArgumentsMixin):
+class CustomModelViewSet(ModelViewSet, ImportSerializerMixin, ExportSerializerMixin, QueryArgumentsMixin):
     """
     自定义的ModelViewSet:
     统一标准的返回格式;新增,查询,修改可使用不同序列化器
@@ -107,16 +106,17 @@ class CustomModelViewSet(ModelViewSet,ImportSerializerMixin,ExportSerializerMixi
         instance.delete()
         return DetailResponse(data=[], msg="删除成功")
 
-    keys = openapi.Schema(description='主键列表',type=openapi.TYPE_ARRAY,items=openapi.TYPE_STRING)
+    keys = openapi.Schema(description='主键列表', type=openapi.TYPE_ARRAY, items=openapi.TYPE_STRING)
+
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT,
         required=['keys'],
         properties={'keys': keys}
     ), operation_summary='批量删除')
-    @action(methods=['delete'],detail=False)
-    def multiple_delete(self,request,*args,**kwargs):
+    @action(methods=['delete'], detail=False)
+    def multiple_delete(self, request, *args, **kwargs):
         request_data = request.data
-        keys = request_data.get('keys',None)
+        keys = request_data.get('keys', None)
         if keys:
             self.get_queryset().filter(id__in=keys).delete()
             return SuccessResponse(data=[], msg="删除成功")

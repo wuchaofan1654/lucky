@@ -1,7 +1,7 @@
 
 from django.db import models
 
-from utils.models import CoreModel, table_prefix
+from system.utils.models import CoreModel, table_prefix
 
 STATUS_CHOICES = (
     (0, "禁用"),

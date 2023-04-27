@@ -99,7 +99,6 @@ export default {
     },
     // 授权
     createPermission (scope) {
-      console.log(scope)
       this.roleObj = scope.row
       this.rolePermissionShow = true
       // this.$router.push({

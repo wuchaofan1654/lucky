@@ -11,3 +11,4 @@ from system.models.post import Post
 from system.models.role import Role
 from system.models.system_config import SystemConfig
 from system.models.user import Users
+from system.models.celery_log import CeleryLog

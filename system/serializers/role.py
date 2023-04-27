@@ -12,8 +12,8 @@ from system.models import Role, Menu, MenuButton
 from system.views.dept import DeptSerializer
 from system.views.menu import MenuSerializer
 from system.views.menu import MenuButtonSerializer
-from utils.serializers import CustomModelSerializer
-from utils.validator import CustomUniqueValidator
+from system.utils.serializers import CustomModelSerializer
+from system.utils.validator import CustomUniqueValidator
 
 
 class RoleSerializer(CustomModelSerializer):

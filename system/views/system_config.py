@@ -14,9 +14,9 @@ from rest_framework.views import APIView
 from application import dispatch
 from system.models import SystemConfig
 from system.serializers import SystemConfigChildrenSerializer, SystemConfigCreateSerializer
-from utils.json_response import DetailResponse, SuccessResponse, ErrorResponse
-from utils.models import get_all_models_objects
-from utils.viewset import CustomModelViewSet
+from system.utils.json_response import DetailResponse, SuccessResponse, ErrorResponse
+from system.utils.models import get_all_models_objects
+from system.utils.viewset import CustomModelViewSet
 
 
 class SystemConfigFilter(django_filters.rest_framework.FilterSet):
@@ -102,14 +102,14 @@ class SystemConfigViewSet(CustomModelViewSet):
         if instance is None:
             return ErrorResponse(msg="未获取到关联信息")
         relation_id = body.get('relationIds', None)
-        relationIds = []
+        relation_ids = []
         if relation_id is None:
             return ErrorResponse(msg="未获取到关联信息")
         if instance.form_item_type in [13]:
-            relationIds = [relation_id]
+            relation_ids = [relation_id]
         elif instance.form_item_type in [14]:
-            relationIds = relation_id.split(',')
-        queryset = SystemConfig.objects.filter(value__in=relationIds).first()
+            relation_ids = relation_id.split(',')
+        queryset = SystemConfig.objects.filter(value__in=relation_ids).first()
         if queryset is None:
             return ErrorResponse(msg="未获取到关联信息")
         serializer = SystemConfigChildrenSerializer(queryset.parent)

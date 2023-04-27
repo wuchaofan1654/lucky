@@ -5,7 +5,7 @@ import os
 import django
 from django.db.models import QuerySet
 
-from system.views.system_config import SystemConfigInitSerializer
+from system.serializers import SystemConfigInitSerializer
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'application.settings')
 django.setup()
@@ -13,12 +13,12 @@ from django.core.management.base import BaseCommand
 
 from application.settings import BASE_DIR
 from system.models import Menu, Users, Dept, Role, ApiWhiteList, Dictionary, SystemConfig
-from system.views.api_white_list import ApiWhiteListInitSerializer
-from system.views.dept import DeptInitSerializer
-from system.views.dictionary import DictionaryInitSerializer
-from system.views.menu import MenuInitSerializer
-from system.views.role import RoleInitSerializer
-from system.views.user import UsersInitSerializer
+from system.serializers import ApiWhiteListInitSerializer
+from system.serializers import DeptInitSerializer
+from system.serializers import DictionaryInitSerializer
+from system.serializers import MenuInitSerializer
+from system.serializers import RoleInitSerializer
+from system.serializers import UsersInitSerializer
 
 logger = logging.getLogger(__name__)
 

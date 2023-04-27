@@ -1,6 +1,5 @@
-from utils.serializers import CustomModelSerializer
+from system.utils.serializers import CustomModelSerializer
 from custom.models import CheckResult
-from rest_framework import serializers
 
 
 # ================================================= #

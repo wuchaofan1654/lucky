@@ -1,6 +1,6 @@
 from django.db.models import CharField, TextField
 
-from utils.models import CoreModel
+from system.utils.models import CoreModel
 
 
 class Recording(CoreModel):

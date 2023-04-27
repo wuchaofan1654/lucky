@@ -1,6 +1,6 @@
 from django.db.models import IntegerField, TextField
 
-from utils.models import CoreModel
+from system.utils.models import CoreModel
 
 
 class CheckResult(CoreModel):

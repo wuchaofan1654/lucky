@@ -5,8 +5,8 @@ from django_restql.fields import DynamicSerializerMethodField
 from rest_framework import serializers
 from system.models import Users, Role, Dept
 from system.views.role import RoleSerializer
-from utils.serializers import CustomModelSerializer
-from utils.validator import CustomUniqueValidator
+from system.utils.serializers import CustomModelSerializer
+from system.utils.validator import CustomUniqueValidator
 
 
 def recursion(instance, parent, result):
@@ -19,6 +19,16 @@ def recursion(instance, parent, result):
         array = recursion(new_instance, parent, result)
         res += array
     return res
+
+
+class SimpleUserSerializer(CustomModelSerializer):
+    class Meta:
+        model = Users
+        read_only_fields = ["id"]
+        fields = ('id', 'name')
+        extra_kwargs = {
+            "post": {"required": False},
+        }
 
 
 class UserSerializer(CustomModelSerializer):

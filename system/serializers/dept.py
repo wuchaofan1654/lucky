@@ -8,7 +8,17 @@
 from rest_framework import serializers
 
 from system.models import Dept
-from utils.serializers import CustomModelSerializer
+from system.utils.serializers import CustomModelSerializer
+
+
+class SimpleDeptSerializer(CustomModelSerializer):
+    """
+    部门-序列化器
+    """
+    class Meta:
+        model = Dept
+        fields = ('id', 'name')
+        read_only_fields = ["id"]
 
 
 class DeptSerializer(CustomModelSerializer):

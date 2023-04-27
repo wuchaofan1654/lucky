@@ -7,7 +7,7 @@
 """
 from system.models import ApiWhiteList
 from system.serializers import ApiWhiteListSerializer
-from utils.viewset import CustomModelViewSet
+from system.utils.viewset import CustomModelViewSet
 
 
 class ApiWhiteListViewSet(CustomModelViewSet):

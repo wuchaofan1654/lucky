@@ -17,6 +17,7 @@ def get_summary(string):
         result = string.strip().replace(" ","").split("\n")
         return result[0]
 
+
 class CustomSwaggerAutoSchema(SwaggerAutoSchema):
     def get_tags(self, operation_keys=None):
         tags = super().get_tags(operation_keys)

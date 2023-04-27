@@ -9,7 +9,7 @@
 
 from system.models import OperationLog
 from system.serializers import OperationLogSerializer
-from utils.viewset import CustomModelViewSet
+from system.utils.viewset import CustomModelViewSet
 
 
 class OperationLogViewSet(CustomModelViewSet):

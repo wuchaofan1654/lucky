@@ -1,6 +1,6 @@
 
 from system.models import ApiWhiteList
-from utils.serializers import CustomModelSerializer
+from system.utils.serializers import CustomModelSerializer
 
 
 class ApiWhiteListSerializer(CustomModelSerializer):

@@ -1,6 +1,6 @@
 
 from django.db import models
-from utils.models import CoreModel, table_prefix
+from system.utils.models import CoreModel, table_prefix
 from application import dispatch
 
 

@@ -6,8 +6,6 @@
 @Created on: 2022/5/31 031 22:08
 @Remark: 公共基础model类
 """
-import uuid
-
 from django.apps import apps
 from django.db import models
 from django.db.models import QuerySet
@@ -18,8 +16,6 @@ table_prefix = settings.TABLE_PREFIX  # 数据库表名前缀
 
 class SoftDeleteQuerySet(QuerySet):
     pass
-
-
 
 
 class SoftDeleteManager(models.Manager):

@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.urls import re_path as url
+from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import path, include, re_path
 from drf_yasg import openapi
@@ -32,7 +34,7 @@ from system.views.login import (
     LogoutView,
 )
 from system.views.system_config import InitSettingsViewSet
-from utils.swagger import CustomOpenAPISchemaGenerator
+from system.utils.swagger import CustomOpenAPISchemaGenerator
 
 # =========== 初始化系统配置 =================
 dispatch.init_system_config()
@@ -55,6 +57,7 @@ schema_view = get_schema_view(
 
 urlpatterns = (
         [
+            url(r'^admin/', admin.site.urls),
             re_path(
                 r"^swagger(?P<format>\.json|\.yaml)$",
                 schema_view.without_ui(cache_timeout=0),

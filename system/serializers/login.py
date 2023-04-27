@@ -7,7 +7,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.conf import settings
 
 from system.models import Users, LoginLog
-from utils.serializers import CustomModelSerializer
+from system.utils.serializers import CustomModelSerializer
 
 
 class LoginSerializer(TokenObtainPairSerializer):

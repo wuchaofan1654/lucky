@@ -14,8 +14,7 @@ from rest_framework.request import Request
 from application import settings
 from system.models import Users
 from system.serializers.message_center import MessageCenterTargetUserSerializer
-from utils.serializers import CustomModelSerializer
-import logging
+from system.utils.serializers import CustomModelSerializer
 
 
 send_dict = {}
@@ -72,7 +71,8 @@ class BasicWebSocket(AsyncJsonWebsocketConsumer):
             decoded_result = jwt.decode(self.service_uid, settings.SECRET_KEY, algorithms=["HS256"])
             if decoded_result:
                 self.user_id = decoded_result.get('user_id')
-                self.chat_group_name = "user_" + str(self.user_id)
+                self.chat_group_name = f"user_{self.user_id}"
+                print(f"websocket连接成功：group_name={self.chat_group_name}")
                 # 收到连接时候处理，
                 await self.channel_layer.group_add(
                     self.chat_group_name,
@@ -109,7 +109,7 @@ class MessageCenter(BasicWebSocket):
     """
     消息中心
     """
-    async def receive(self, text_data):
+    async def receive(self, text_data=None, bytes_data=None):
         # 接受客户端的信息，你处理的函数
         text_data_json = json.loads(text_data)
         message_id = text_data_json.get('message_id', None)
@@ -122,7 +122,9 @@ class MessageCenter(BasicWebSocket):
 
     async def push_message(self, event):
         """消息发送"""
-        message = event['json']
+        logger.info(f"开始执行 websocket push message: {event}")
+        message = event
+        logger.info(f"websocket pushed a message: {message}")
         await self.send(text_data=json.dumps(message))
 
 
@@ -137,18 +139,6 @@ class MessageCreateSerializer(CustomModelSerializer):
         read_only_fields = ["id"]
 
 
-def websocket_push(user_id, message):
-    username = "user_" + str(user_id)
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)(
-        username,
-        {
-            "type": "push.message",
-            "json": message
-        }
-    )
-
-
 def create_message_push(
         title: str,
         content: str,
@@ -156,9 +146,11 @@ def create_message_push(
         target_user: list = list,
         target_dept=None,
         target_role=None,
-        message: dict = {'contentType': 'INFO', 'content': '测试~'},
+        message=None,
         request=Request
 ):
+    if message is None:
+        message = {'contentType': 'INFO', 'content': '测试~'}
     if message is None:
         message = {"contentType": "INFO", "content": None}
     if target_role is None:

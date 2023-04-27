@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
 from django_restql.fields import DynamicSerializerMethodField
 from rest_framework import serializers
 
 from system.models import MessageCenter, Users, MessageCenterTargetUser
-from utils.serializers import CustomModelSerializer
+from system.utils.serializers import CustomModelSerializer
+from system.tasks import websocket_push
 
 import logging
 
@@ -85,7 +84,8 @@ class MessageCenterTargetUserListSerializer(CustomModelSerializer):
     def get_is_read(self, instance):
         user_id = self.request.user.id
         message_center_id = instance.id
-        queryset = MessageCenterTargetUser.objects.filter(message_center__id=message_center_id, users_id=user_id).first()
+        queryset = MessageCenterTargetUser.objects.filter(
+            message_center__id=message_center_id, users_id=user_id).first()
         if queryset:
             return queryset.is_read
         return False
@@ -94,22 +94,6 @@ class MessageCenterTargetUserListSerializer(CustomModelSerializer):
         model = MessageCenter
         fields = "__all__"
         read_only_fields = ["id"]
-
-
-def websocket_push(user_id, message):
-    """
-    主动推送消息
-    """
-    username = "user_" + str(user_id)
-    logger.info(f"code = 103, {message}")
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)(
-        username,
-        {
-            "type": "push.message",
-            "json": message
-        }
-    )
 
 
 class MessageCenterCreateSerializer(CustomModelSerializer):

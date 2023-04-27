@@ -12,8 +12,8 @@ from rest_framework.permissions import IsAuthenticated
 from system.models import Role, Menu, Dept
 from system.serializers import RoleSerializer, RoleCreateUpdateSerializer
 from system.serializers.role import MenuPermissionSerializer
-from utils.json_response import DetailResponse
-from utils.viewset import CustomModelViewSet
+from system.utils.json_response import DetailResponse
+from system.utils.viewset import CustomModelViewSet
 
 
 class RoleViewSet(CustomModelViewSet):

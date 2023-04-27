@@ -71,8 +71,8 @@ class CustomPermission(BasePermission):
         else:
             api = request.path  # 当前请求接口
             method = request.method  # 当前请求方法
-            methodList = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH']
-            method = methodList.index(method)
+            method_list = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH']
+            method = method_list.index(method)
             # ***接口白名单***
             api_white_list = ApiWhiteList.objects.values(permission__api=F('url'), permission__method=F('method'))
             api_white_list = [
@@ -81,15 +81,16 @@ class CustomPermission(BasePermission):
             # ********#
             if not hasattr(request.user, "role"):
                 return False
-            userApiList = request.user.role.values('permission__api', 'permission__method')  # 获取当前用户的角色拥有的所有接口
-            ApiList = [
+
+            user_api_list = request.user.role.values('permission__api', 'permission__method')  # 获取当前用户的角色拥有的所有接口
+            api_list = [
                 str(item.get('permission__api').replace('{id}', '([a-zA-Z0-9-]+)')) + ":" + str(
-                    item.get('permission__method')) + '$' for item in userApiList if item.get('permission__api')]
-            new_api_ist = api_white_list + ApiList
+                    item.get('permission__method')) + '$' for item in user_api_list if item.get('permission__api')]
+            new_api_ist = api_white_list + api_list
             new_api = api + ":" + str(method)
             for item in new_api_ist:
-                matchObj = re.match(item, new_api, re.M | re.I)
-                if matchObj is None:
+                match_obj = re.match(item, new_api, re.M | re.I)
+                if match_obj is None:
                     continue
                 else:
                     return True

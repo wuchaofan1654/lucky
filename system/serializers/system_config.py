@@ -11,8 +11,8 @@ from django_filters.rest_framework import BooleanFilter
 from rest_framework import serializers
 
 from system.models import SystemConfig
-from utils.serializers import CustomModelSerializer
-from utils.validator import CustomValidationError
+from system.utils.serializers import CustomModelSerializer
+from system.utils.validator import CustomValidationError
 
 
 class SystemConfigCreateSerializer(CustomModelSerializer):

@@ -14,6 +14,7 @@ from system.views.operation_log import OperationLogViewSet
 from system.views.role import RoleViewSet
 from system.views.system_config import SystemConfigViewSet
 from system.views.user import UserViewSet
+from system.views.celery_log import CeleryLogViewSet
 
 system_url = routers.SimpleRouter()
 system_url.register(r'menu', MenuViewSet)
@@ -28,6 +29,7 @@ system_url.register(r'file', FileViewSet)
 system_url.register(r'api_white_list', ApiWhiteListViewSet)
 system_url.register(r'system_config', SystemConfigViewSet)
 system_url.register(r'message_center', MessageCenterViewSet)
+system_url.register(r'celery_log', CeleryLogViewSet)
 
 urlpatterns = [
     path('system_config/save_content/', SystemConfigViewSet.as_view({'put': 'save_content'})),

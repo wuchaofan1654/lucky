@@ -1,4 +1,5 @@
-from utils.serializers import CustomModelSerializer
+from system.utils import serializers
+from system.utils.serializers import CustomModelSerializer
 from custom.models import Recording
 
 
@@ -26,3 +27,21 @@ class RecordingCreateUpdateSerializer(CustomModelSerializer):
     class Meta:
         model = Recording
         fields = '__all__'
+
+
+class ExportRecordingProfileSerializer(CustomModelSerializer):
+    """
+    录制记录导出 序列化器
+    """
+
+    class Meta:
+        model = Recording
+        fields = (
+            "host",
+            "path",
+            "unique_name",
+            "request_meta",
+            "response_meta",
+            "create_datetime"
+        )
+

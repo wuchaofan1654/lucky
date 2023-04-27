@@ -12,8 +12,8 @@ from system.models import Menu, MenuButton
 from system.serializers import MenuSerializer
 from system.serializers.menu import WebRouterSerializer, MenuCreateSerializer
 from system.serializers import MenuButtonSerializer, MenuButtonCreateUpdateSerializer
-from utils.json_response import SuccessResponse
-from utils.viewset import CustomModelViewSet
+from system.utils.json_response import SuccessResponse
+from system.utils.viewset import CustomModelViewSet
 
 
 class MenuViewSet(CustomModelViewSet):

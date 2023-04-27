@@ -1,7 +1,8 @@
 
 from system.models import FileList
 from system.serializers import FileSerializer
-from utils.viewset import CustomModelViewSet
+from system.utils.viewset import CustomModelViewSet
+
 
 class FileViewSet(CustomModelViewSet):
     """

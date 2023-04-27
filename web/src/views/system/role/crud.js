@@ -1,5 +1,4 @@
 export const crudOptions = (vm) => {
-  console.log(vm)
   return {
     pageOptions: {
       compact: true

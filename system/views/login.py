@@ -15,10 +15,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from application import dispatch
 from system.models import Users
 from system.serializers import LoginSerializer, LoginTokenSerializer
-from utils.json_response import ErrorResponse, DetailResponse
-from utils.request_util import save_login_log
-from utils.serializers import CustomModelSerializer
-from utils.validator import CustomValidationError
+from system.utils.json_response import ErrorResponse, DetailResponse
+from system.utils.request_util import save_login_log
+from system.utils.serializers import CustomModelSerializer
+from system.utils.validator import CustomValidationError
 
 
 class CaptchaView(APIView):
@@ -34,13 +34,13 @@ class CaptchaView(APIView):
     def get(self, request):
         data = {}
         if dispatch.get_system_config_values("base.captcha_state"):
-            hashkey = CaptchaStore.generate_key()
-            id = CaptchaStore.objects.filter(hashkey=hashkey).first().id
-            imgage = captcha_image(request, hashkey)
+            hash_key = CaptchaStore.generate_key()
+            _id = CaptchaStore.objects.filter(hashkey=hash_key).first().id
+            image = captcha_image(request, hash_key)
             # 将图片转换为base64
-            image_base = base64.b64encode(imgage.content)
+            image_base = base64.b64encode(image.content)
             data = {
-                "key": id,
+                "key": _id,
                 "image_base": "data:image/png;base64," + image_base.decode("utf-8"),
             }
         return DetailResponse(data=data)
@@ -123,7 +123,6 @@ class LoginTokenView(TokenObtainPairView):
     """
     登录获取token接口
     """
-
     serializer_class = LoginTokenSerializer
     permission_classes = []
 

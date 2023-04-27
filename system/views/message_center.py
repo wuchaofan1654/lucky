@@ -1,31 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 
 from system.models import MessageCenter, MessageCenterTargetUser
 from system.serializers import MessageCenterSerializer, MessageCenterCreateSerializer, \
     MessageCenterTargetUserListSerializer
-from utils.json_response import SuccessResponse, DetailResponse
-from utils.viewset import CustomModelViewSet
-
-
-def websocket_push(user_id, message):
-    """
-    主动推送消息
-    """
-    username = "user_"+str(user_id)
-    print(103, message)
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)(
-        username,
-        {
-            "type": "push.message",
-            "json": message
-        }
-    )
+from custom.tasks import websocket_push
+from system.utils.json_response import SuccessResponse, DetailResponse
+from system.utils.viewset import CustomModelViewSet
 
 
 class MessageCenterViewSet(CustomModelViewSet):
@@ -53,7 +36,8 @@ class MessageCenterViewSet(CustomModelViewSet):
         """
         pk = kwargs.get('pk')
         user_id = self.request.user.id
-        queryset = MessageCenterTargetUser.objects.filter(users__id=user_id, messagecenter__id=pk).first()
+        print(f"1==========={self.request.user}, {user_id}")
+        queryset = MessageCenterTargetUser.objects.filter(users__id=user_id, message_center__id=pk).first()
         if queryset:
             queryset.is_read = True
             queryset.save()
@@ -61,8 +45,12 @@ class MessageCenterViewSet(CustomModelViewSet):
         serializer = self.get_serializer(instance)
         # 主动推送消息
         unread_count = MessageCenterTargetUser.objects.filter(users__id=user_id, is_read=False).count()
-        websocket_push(user_id, message={"sender": 'system', "contentType": 'TEXT',
-                                 "content": '您查看了一条消息~', "unread": unread_count})
+        websocket_push(user_id, message={
+            "sender": 'system',
+            "contentType": 'TEXT',
+            "content": '您查看了一条消息~',
+            "unread": unread_count
+        })
         return DetailResponse(data=serializer.data, msg="获取成功")
 
     @action(methods=['GET'], detail=False, permission_classes=[IsAuthenticated])
@@ -73,7 +61,6 @@ class MessageCenterViewSet(CustomModelViewSet):
         self_user_id = self.request.user.id
         # queryset = MessageCenterTargetUser.objects.filter(users__id=self_user_id).order_by('-create_datetime')
         queryset = MessageCenter.objects.filter(target_user__id=self_user_id)
-        print(queryset)
         # queryset = self.filter_queryset(queryset)
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -91,6 +78,6 @@ class MessageCenterViewSet(CustomModelViewSet):
         queryset = MessageCenterTargetUser.objects.filter(users__id=self_user_id).order_by('create_datetime').last()
         data = None
         if queryset:
-            serializer = MessageCenterTargetUserListSerializer(queryset.messagecenter, many=False, request=request)
+            serializer = MessageCenterTargetUserListSerializer(queryset.message_center, many=False, request=request)
             data = serializer.data
         return DetailResponse(data=data, msg="获取成功")

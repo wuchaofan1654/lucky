@@ -8,6 +8,8 @@
  */
 import XEUtils from 'xe-utils'
 import router from '@/router'
+import state from "@/store/modules/d2admin/modules/user";
+
 export default {
   hasPermissions (value) {
     if (process.env.VUE_APP_PM_ENABLED) {
@@ -23,6 +25,9 @@ export default {
       }
       // 获取所有的菜单路由(包含权限)
       let menuTree = sessionStorage.getItem('menuData')
+      if (state.state.info.is_superuser) {
+        return true
+      }
       menuTree = JSON.parse(menuTree)
       const userPermissionList = XEUtils.toTreeArray(menuTree)
       const permissionList = []
